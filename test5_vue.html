@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>{{ message }}</p>
+  <h1>{{temp}}</h1>
+  <p>{{details()}}</p>
+  <h2>{{test()}}</h2>
+  <div v-html="message_html"></div>
+</div>
+
+<script>
+var vm = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue.js!',
+    temp: 'Hello world!!!',
+    message_html:'<h1>Hellooooo</h1>'
+  },
+  methods: {
+				details: function() {
+					return  this.message + " - 学的不仅是技术，更是梦想！";
+                },
+                test:function()
+                {
+                    return this.temp+"method只是一个function大括，里边还有更多的小标签";
+                }
+			}
+})
+document.write(vm.$data === data) // true
+document.write("<br>") 
+document.write(vm.$el === document.getElementById('app')) // true
+</script>
+</body>
+</html>
