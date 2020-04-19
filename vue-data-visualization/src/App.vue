@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <p>App.vue</p>
-    <VChart />
-    <BarChart />
-    <PieAndLineChart />
-    <LineChart />
+    <!-- <VChart /> -->
+    <!-- <BarChart /> -->
+    <Map />
+    <!-- <PieAndLineChart /> -->
+    <!-- <LineChart /> -->
     <!-- <router-view/> -->
   </div>
 </template>
@@ -14,14 +15,15 @@ import VChart from '@/components/V-Chart'
 import LineChart from '@/components/LineChart'
 import BarChart from '@/components/BarChart'
 import PieAndLineChart from '@/components/PieAndLineChart'
+import Map from '@/components/Map'
 export default {
   name: 'App',
   components: {
-    VChart,
-    LineChart,
-    BarChart,
-    PieAndLineChart
-    // WordCloud2
+    // VChart,
+    // LineChart,
+    // BarChart,
+    // PieAndLineChart,
+    Map
   }
 }
 </script>
