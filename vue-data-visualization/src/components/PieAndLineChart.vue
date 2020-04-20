@@ -29,10 +29,29 @@ import 'echarts/lib/chart/pie'
 
 export default {
     name: "PieAndLineChart",
+    data(){
+        return {
+            provTotal:{},
+            geojson:{}
+        }
+    },
     mounted(){
-        this.drawLine();
+        this.loadData();
     },
     methods: {
+        loadData(){
+            this.$d3.csv('static/up_data.csv').then(data => {
+                console.log(data)
+            })
+            // Promise.all([
+            //     this.$d3.csv('../assets/province_confirmed_total.csv'),
+            //     this.$d3.json('../assets/province_geo.json'),
+            // ]).then(datasets => {
+            //     this.provTotal = datasets[0];
+            //     this.geojson = datasets[1];
+            //     console.log(this.provTotal)
+            // })
+        },
         drawLine(){
             let myChart = this.$echarts.init(document.getElementById('line'))
             myChart.setOption({

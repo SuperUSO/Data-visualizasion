@@ -3,9 +3,9 @@
     <p>App.vue</p>
     <!-- <VChart /> -->
     <!-- <BarChart /> -->
-    <Map />
-    <!-- <PieAndLineChart /> -->
-    <!-- <LineChart /> -->
+    <!-- <Map /> -->
+    <PieAndLineChart />
+    <LineChart />
     <!-- <router-view/> -->
   </div>
 </template>
@@ -20,10 +20,10 @@ export default {
   name: 'App',
   components: {
     // VChart,
-    // LineChart,
+    LineChart,
     // BarChart,
-    // PieAndLineChart,
-    Map
+    PieAndLineChart,
+    // Map
   }
 }
 </script>
