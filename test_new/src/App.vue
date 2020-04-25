@@ -5,7 +5,7 @@
 		<TheTitle msg="B站百大UP主可视化分析"/>
 	</el-header-->
 	<!--el-header style="font-size: larger;">B站百大UP主可视化分析</el-header-->
-	<div class="Title">B站百大UP主可视化分析</div>
+	<!--div class="Title">B站百大UP主可视化分析</div-->
 	<!--table><tr>
 	<td><img  src="./assets/花花与三猫_终.png"/></td>
 	<td><img  src="./assets/咬人猫_终.png"/></td>
@@ -47,6 +47,14 @@
 			</el-carousel-item>
 		</el-carousel>
 	</div-->
+	<!--div class="block">
+		<span class="demonstration">默认Hover指示器触发</span>
+		<el-carousel height="500px">
+			<el-carousel-item v-for="imgSrc in imgSrc()" :key="imgSrc">
+				<h3 class="small">{{imgSrc}}</h3>
+			</el-carousel-item>
+		</el-carousel>
+	</div-->
 	<div class="block">
 		<span class="demonstration">默认Hover指示器触发</span>
 		<el-carousel height="600px">
@@ -56,7 +64,7 @@
 						<el-image style="width: 18.75rem; height: 98%" :src="require('@/assets/花花与三猫_终.png')"></el-image>
 					</el-aside>
 					<el-aside>
-						<el-image style="width: 18.75rem; height: 98%" :src="require('@/assets/花花与三猫_终.png')"></el-image>
+						<el-image style="width: 18.75rem; height: 98%" :src="require('@/assets/咬人猫_终.png')"></el-image>
 					</el-aside>
 					<el-aside>
 						<el-image style="width: 18.75rem; height: 98%" :src="require('@/assets/花花与三猫_终.png')"></el-image>
@@ -70,18 +78,23 @@
 				</el-container>
 			</el-carousel-item>
 			<el-carousel-item>
-				<h3 class="small">2</h3>
+				<el-container>
+					<el-image style="width: 100% height:80%;" :fit="fit" :src="require('@/assets/index.png')"></el-image>
+				</el-container>
 			</el-carousel-item>
 			<el-carousel-item>
 				<h3 class="small">3</h3>
 			</el-carousel-item>
-			<el-carousel-item>
-				<h3 class="small">4</h3>
-			</el-carousel-item>
 		</el-carousel>
 	</div>
+	<!--div class="demo-image">
+		<div class="block" v-for="fit in fits" :key="fit">
+			<span class="demonstration">{{fit}}</span>
+			<el-image style="width: 100px;height: 100px;" :src="url" :fit="fit"></el-image>
+		</div>
+	</div-->
 	<el-footer>
-		next
+		<el-link href="./charts.vue" target="_blank">next</el-link>
 	</el-footer>
 	
 	
@@ -92,10 +105,22 @@
 //import TheTitle from './components/HelloWorld.vue'
 
 export default {
+	data() {
+      return {
+        fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+		//imgSrcs:require('@/assets/花花与三猫_终.png'),
+      }
+    },
   name: 'App',
   components: {
   //  TheTitle
-  }
+  },
+  /*data(){
+	  return{
+		  imgSrc:["require('@/assets/花花与三猫_终.png')","require('@/assets/花花与三猫_终.png')"]
+	  }
+  }*/
 }
 </script>
 
