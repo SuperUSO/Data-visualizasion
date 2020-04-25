@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: 'TheTitle',
-  props: {
-    msg: String
+  //name: 'TheTitle',
+  //props: {
+    //msg: String
   }
 }
 </script>
@@ -16,7 +16,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
-  margin: 40px 0 0;
+  margin: 10px 0 0;
 }
 ul {
   list-style-type: none;
