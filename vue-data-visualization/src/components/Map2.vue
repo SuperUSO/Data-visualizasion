@@ -10,9 +10,6 @@
 
 <script>
 import echarts from 'echarts'
-// import 'echarts/extension/bmap/bmap'
-// import linesData from '../data/lines-data.json'
-// import mapConfig from '../data/map-config.json'
 
 export default {
   name: 'Map',

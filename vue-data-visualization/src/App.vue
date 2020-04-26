@@ -4,8 +4,8 @@
     <!-- <VChart /> -->
     <!-- <BarChart /> -->
     <!-- <Map /> -->
-    <PieAndLineChart />
-    <LineChart />
+    <PopularityLineAndBarChart />
+    <!-- <LineChart /> -->
     <!-- <router-view/> -->
   </div>
 </template>
@@ -15,15 +15,15 @@ import VChart from '@/components/V-Chart'
 import LineChart from '@/components/LineChart'
 import BarChart from '@/components/BarChart'
 import PieAndLineChart from '@/components/PieAndLineChart'
-import Map from '@/components/Map'
+import PopularityLineAndBarChart from '@/components/PopularityLineAndBarChart'
 export default {
   name: 'App',
   components: {
     // VChart,
     LineChart,
     // BarChart,
-    PieAndLineChart,
-    // Map
+    // PieAndLineChart,
+    PopularityLineAndBarChart
   }
 }
 </script>

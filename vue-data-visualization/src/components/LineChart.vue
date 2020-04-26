@@ -42,8 +42,8 @@ export default {
         dataZoom:{
         	show: true,
         	realtime: true,
-        	start: 20,
-        	end: 80
+        	start: 50,
+        	end: 100
         },
         xAxis : [
             {
