@@ -20,6 +20,18 @@ export default {
   name: "PopularityLineAndBarChart",
   data() {
     return {
+      colors: [
+            "#d87c7c",
+            "#919e8b",
+            "#d7ab82",
+            "#6e7074",
+            "#61a0a8",
+            "#efa18d",
+            "#787464",
+            "#cc7e63",
+            "#724e58",
+            "#4b565b"
+        ],
       upid: "38351330",
       videos: [],
       popularityList: [], //line chart
@@ -88,7 +100,7 @@ export default {
         acc[cur.type_name] = current;
         return acc;
       }, {});
-      console.log(typeAndValueTemp);
+      // console.log(typeAndValueTemp);
       this.typeAndValue = Object.keys(typeAndValueTemp).map(x => {
         this.types.push(x);
         return {
@@ -96,8 +108,8 @@ export default {
           value: typeAndValueTemp[x].value
         };
       });
-      console.log(this.types)
-      console.log(this.typeAndValue);
+      // console.log(this.types)
+      // console.log(this.typeAndValue);
 
       return this.videos;
     },
@@ -159,13 +171,28 @@ export default {
           {
             name: "视频受欢迎程度",
             type: "line",
-            data: this.popularityList
+            data: this.popularityList,
+            lineStyle: {
+              color: '#2f4554'
+            }
           },
           {
             name: "视频时长",
             type: "bar",
             yAxisIndex: 1,
-            data: this.lengthSecondsList
+            data: this.lengthSecondsList,
+            itemStyle: {
+              normal: {
+                color: (params) => {
+                  // console.log(params)
+                  let curType = this.videos[params.dataIndex].type_name;
+                  let index = this.types.indexOf(curType);
+                  // console.log(index)
+                  // console.log(this.colors[index % this.colors.length])
+                  return this.colors[index % this.colors.length];
+                }
+              }
+            }
           }
         ]
       };
@@ -190,6 +217,7 @@ export default {
           left: "left",
           data: this.types
         },
+        color: this.colors,
         series: [
           {
             name: "视频分区",
