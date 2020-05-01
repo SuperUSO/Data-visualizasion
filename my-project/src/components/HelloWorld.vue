@@ -3,12 +3,6 @@
     <!--h1>{{ msg }}</h1-->
 	<!--el-header height="30px">Head</el-header-->
 	<el-main>
-		<!--el-row :gutter="20">
-			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-		</el-row-->
 		<el-carousel height="635px">
 			<!--el-carousel-item v-for="item in 4" :key="item">
 				<h3 class="small">{{item}}</h3>
@@ -24,35 +18,21 @@
 			</el-carousel-item>
 			<el-carousel-item>
 				<el-row :gutter="10">
-					<el-col :span="6">
-						<el-image :src="require('@/assets/1.png')"></el-image>
+					<el-col :span="18">
+						<el-image :src="require('@/assets/UP_introx.png')"></el-image>
 					</el-col>
 					<el-col :span="6">
-						<el-image :src="require('@/assets/2.png')"></el-image>
-					</el-col>
-					<el-col :span="6">
-						<el-image :src="require('@/assets/3.png')"></el-image>
-					</el-col>
-					<el-col :span="6">
-						<el-image :src="require('@/assets/4.png')"></el-image>
+						<el-image :src="require('@/assets/25.png')"></el-image>
 					</el-col>
 				</el-row>
 			</el-carousel-item>
-			<el-carousel-item>
+			<el-carousel-item v-for="i in 4" :key="i">
 				<el-row :gutter="10">
-					<el-col :span="6">
-						<el-image :src="require('@/assets/5.png')"></el-image>
-					</el-col>
-					<el-col :span="6">
-						<el-image :src="require('@/assets/6.png')"></el-image>
-					</el-col>
-					<el-col :span="6">
-						<el-image :src="require('@/assets/3.png')"></el-image>
-					</el-col>
-					<el-col :span="6">
-						<el-image :src="require('@/assets/4.png')"></el-image>
+					<el-col :span="6" v-for="j in 4" :key="j">
+						<el-image :src="require('@/assets/'+((i-1)*4+j)+'.png')"></el-image>
 					</el-col>
 				</el-row>
+				<!--el-image :src="require('@/assets/'+item+'.png')"></el-image-->
 			</el-carousel-item>
 		</el-carousel>
 	</el-main>
