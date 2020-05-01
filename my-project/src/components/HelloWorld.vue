@@ -1,33 +1,78 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="hello bg-gray">
+    <!--h1>{{ msg }}</h1-->
+	<!--el-header height="30px">Head</el-header-->
+	<el-main>
+		<!--el-row :gutter="20">
+			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+			<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+		</el-row-->
+		<el-carousel height="635px">
+			<!--el-carousel-item v-for="item in 4" :key="item">
+				<h3 class="small">{{item}}</h3>
+			</el-carousel-item-->
+			<el-carousel-item>
+				<el-col :span="2"><div class="grid-content bg-star"></div></el-col>
+				<el-col :span="20">
+					<el-image style="width: 100%; height: 100%;"
+							:src="require('@/assets/index.png')">
+					</el-image>
+				</el-col>
+				<el-col :span="2"><div class="grid-content bg-star"></div></el-col>
+			</el-carousel-item>
+			<el-carousel-item>
+				<el-row :gutter="10">
+					<el-col :span="6">
+						<el-image :src="require('@/assets/1.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/2.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/3.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/4.png')"></el-image>
+					</el-col>
+				</el-row>
+			</el-carousel-item>
+			<el-carousel-item>
+				<el-row :gutter="10">
+					<el-col :span="6">
+						<el-image :src="require('@/assets/5.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/6.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/3.png')"></el-image>
+					</el-col>
+					<el-col :span="6">
+						<el-image :src="require('@/assets/4.png')"></el-image>
+					</el-col>
+				</el-row>
+			</el-carousel-item>
+		</el-carousel>
+	</el-main>
+	<el-footer height="25px">
+		<el-row type="flex" justify="end" >
+			<!--div class="grid-content2 bg-star">
+				<el-link icon="el-icon-arrow-right" href="/chartx" >
+					<div class="text-white">
+						Next
+					</div>
+				</el-link>
+			</div-->
+			<el-link icon="el-icon-arrow-right" href="/chartx" >
+				<div class="text-white">
+					Next
+				</div>
+			</el-link>
+		</el-row>
+		
+	</el-footer>
   </div>
 </template>
 
@@ -42,9 +87,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -55,5 +98,36 @@ li {
 }
 a {
   color: #42b983;
+}
+.el-row :hover{
+	background-color: burlywood;
+}
+.grid-content{
+	border-radius: 4px;
+	min-height: 800px;
+}
+.grid-content2{
+	border-radius: 4px;
+	min-height: 40px;
+}
+.bg-purple{
+	background: rgba(170, 170, 255, 0.9);
+	
+}
+.bg-star{
+	width: 100%;
+	height: 80%;
+	margin: 0 auto;
+	background-image: url(../assets/bg-star.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow: auto;
+}
+.bg-gray{
+	background: #000000;
+}
+.text-white{
+	color: aliceblue;
+	font-weight: 300;
 }
 </style>

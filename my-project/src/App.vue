@@ -1,10 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/chartx">About</router-link> |
-    </div>
-    <router-view/>
+    <!--div id="nav"-->
+      <!--router-link to="/">Index</router-link> |
+      <router-link to="/chartx">About</router-link--> 
+    <!--/div-->
+    <router-view/>	
+
+	<!--el-breadcrumb separator-class="el-icon-arrow-right">
+		<el-breadcrumb-item : to="{path: '/'}">首页</el-breadcrumb-item>
+		<el-breadcrumb-item >活动管理</el-breadcrumb-item>
+	</el-breadcrumb-->
   </div>
 </template>
 
@@ -29,4 +34,5 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>
