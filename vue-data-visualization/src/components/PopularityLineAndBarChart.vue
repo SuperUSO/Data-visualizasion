@@ -18,8 +18,12 @@ import "echarts/lib/chart/pie";
 
 export default {
   name: "PopularityLineAndBarChart",
+  props:['upId','rawDataProp'],
   data() {
     return {
+      rawData:{},
+      data: {},
+      myChart:{},
       colors: [
             "#d87c7c",
             "#919e8b",
@@ -42,18 +46,41 @@ export default {
     };
   },
   mounted() {
+    // console.log(this.loadData())
     this.loadData()
       .then(this.processData)
       .then(this.draw);
   },
+  watch:{
+    'upId'(){
+      this.processData()
+      this.draw()
+    }
+  },
   methods: {
     loadData() {
-      return this.$d3.csv("static/video_data.csv");
+      this.myChart = this.$echarts.init(
+        document.getElementById("lineAndBarChart")
+      );
+      // return this.$d3.csv("static/video_data.csv").then(d => {
+      //   this.rawData = d;
+      // });
+      return this.$props.rawDataProp.then(d => {
+        console.log(d[0])
+        this.rawData = d;
+      });
     },
-    processData(data) {
-      // console.log(data)
-      data = data.filter(video => video.owner === this.upid);
-      this.videos = data
+    processData() {
+      
+      this.videos = [];
+      this.popularityList=[];
+      this.lengthSecondsList = [];
+      this.timeList = [];
+      this.typeAndValue = [];
+      this.types = [];
+      this.data = this.rawData.filter(video => video.owner === this.$props.upId);
+
+      this.videos = this.data
         .map(video => {
           let lengthSecondsArr = video.length.split(":");
           let x60 = (lengthSecondsArr.length - 1) * 60;
@@ -74,7 +101,7 @@ export default {
             // favorite: parseInt(video.favorite),
             // share: parseInt(video.share),
             // view: parseInt(video.view),
-            popularity: popularity.toFixed(1),
+            popularity: popularity.toFixed(0),
             length: video.length,
             lengthSeconds: lengthSeconds,
             title: video.title,
@@ -91,7 +118,7 @@ export default {
         this.timeList.push(video.timeFormatted);
       }
 
-      let typeAndValueTemp = data.reduce((acc, cur) => {
+      let typeAndValueTemp = this.data.reduce((acc, cur) => {
         let current = acc[cur.type_name] || {
           type: cur.type_name,
           value: 0
@@ -111,9 +138,9 @@ export default {
       // console.log(this.types)
       // console.log(this.typeAndValue);
 
-      return this.videos;
+      // return this.videos;
     },
-    draw(data) {
+    draw() {
       let popilarityMax = Math.max(...this.popularityList);
       let lengthMax = Math.max(...this.lengthSecondsList);
       let option = {
@@ -164,7 +191,7 @@ export default {
           show: true,
           realtime: true,
           start: 0,
-          end: 50
+          end: 30
         },
         calculable: false,
         series: [
@@ -184,7 +211,6 @@ export default {
             itemStyle: {
               normal: {
                 color: (params) => {
-                  // console.log(params)
                   let curType = this.videos[params.dataIndex].type_name;
                   let index = this.types.indexOf(curType);
                   // console.log(index)
@@ -196,11 +222,11 @@ export default {
           }
         ]
       };
-      let myChart = this.$echarts.init(
-        document.getElementById("lineAndBarChart")
-      );
-      myChart.setOption(option);
-
+      // let myChart = this.$echarts.init(
+      //   document.getElementById("lineAndBarChart")
+      // );
+      this.myChart.setOption(option);
+      
       //---------------------------------
 
       let pieOption = {
