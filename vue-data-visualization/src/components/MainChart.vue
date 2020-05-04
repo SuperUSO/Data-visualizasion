@@ -1,16 +1,20 @@
 <template>
   <div>
-    <div id="mainChart" :style="{width: '1000px', height: '1000px'}"></div>
+    <div id="mainChart" :style="{width: '450px', height: '420px'}"></div>
   </div>
 </template>
 
 <style>
+#mainChart{
+  padding-left: 30px;
+  padding-top: 20px;
+}
 </style>
 
 <script>
 export default {
   name: "MainChart",
-  props: ["upId", "rawDataProp"],
+  props: ["rawDataProp"],
   data() {
     return {
       rawData: {},
@@ -38,10 +42,10 @@ export default {
       .then(this.draw);
   },
   watch: {
-    upId() {
-      this.processData();
-      this.draw();
-    }
+    // upId() {
+    //   this.processData();
+    //   this.draw();
+    // }
   },
   methods: {
     loadData() {
@@ -62,6 +66,7 @@ export default {
         };
         result.children.push({
           name: item.name,
+          upId: item.mid,
           value: 1,
           emphasis: {
               itemStyle: {
@@ -82,7 +87,7 @@ export default {
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value)
 
-      console.log(shuffled);
+      // console.log(shuffled);
 
       let groupByCntArr = [];
 
@@ -92,13 +97,13 @@ export default {
           name: item.name,
           children: []
         }
-        if(cntArr.length < 3){
-          curObj.children.push({
-            name: this.levels[2],
-            children: item.children
-          });
-        }
-        else{
+        // if(cntArr.length < 3){
+        //   curObj.children.push({
+        //     name: this.levels[2],
+        //     children: item.children
+        //   });
+        // }
+        // else{
           curObj.children = [
             {
               name: this.levels[0],
@@ -128,11 +133,11 @@ export default {
               curObj.children[2].children.push(x);
             }
           }
-        }
+        // }
         groupByCntArr.push(curObj);
 
       }
-      console.log(groupByCntArr)
+      // console.log(groupByCntArr)
       
       this.data = groupByCntArr;
     },
@@ -247,7 +252,7 @@ export default {
             levels: [
               {},
               {
-                r0: 0,
+                r0: 20,
                 r: 130,
                 label: {
                   rotate: 0
@@ -271,8 +276,8 @@ export default {
                   }
                 },
               {
-                r0: 140,
-                r: 150,
+                r0: 145,
+                r: 155,
                 itemStyle: {
                   // shadowBlur: 80,
                   shadowColor: this.colors[0]
@@ -294,48 +299,14 @@ export default {
         ]
       };
 
-      var option1 = {
-        series: {
-          type: "sunburst",
-          data: [
-            {
-              name: "A",
-              children: [
-                {
-                  value: 3,
-                  name: "Aa"
-                },
-                {
-                  value: 5,
-                  name: "Ab"
-                }
-              ]
-            },
-            {
-              name: "B",
-              children: [
-                {
-                  name: "Ba",
-                  value: 4
-                },
-                {
-                  name: "Bb",
-                  value: 2
-                }
-              ]
-            },
-            {
-              name: "C",
-              value: 3
-            }
-          ]
-        }
-      };
-      console.log("hh");
+      console.log("click---");
       let myChart = this.$echarts.init(document.getElementById("mainChart"));
       myChart.setOption(option);
         myChart.on("click", params => {
-          console.log(params);
+          // console.log(params);
+          if(params.data.upId != undefined){
+            this.$emit('selectUp', params.data.upId)
+          }
         });
       console.log("end");
     }

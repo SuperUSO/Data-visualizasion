@@ -1,6 +1,6 @@
 <template>
   <div class="barStackChart">
-    <div id="barStackChart" :style="{width: '400px', height: '600px'}"></div>
+    <div id="barStackChart" :style="{width: '380px', height: '710px'}"></div>
   </div>
 </template>
 
@@ -10,13 +10,16 @@
 <script>
 export default {
   name: "BarStackChart",
-  props:[],
+  props:['rawDataProp'],
   data() {
     return {
       upId: [],
       follows: [],
       likes: [],
-      view: []
+      view: [],
+      name: [],
+      rawData: [],
+      map: new Map()
     };
   },
   mounted() {
@@ -26,16 +29,21 @@ export default {
   },
   methods: {
     loadData() {
-      return this.$d3.csv("static/up_data.csv");
+      return this.$props.rawDataProp.then(d => {
+        this.rawData = d;
+      });
     },
-    processData(data) {
-    //   console.log(data);
+    processData() {
+      let data = this.rawData
+      // console.log(data);
       let idx = 0;
       for (let item of data) {
         this.upId.push(item.mid);
         this.follows.push(item.follower);
         this.view.push(item.view);
         this.likes.push(item.likes);
+        this.name.push(item.name);
+        this.map.set(item.name, item.mid)
       }
     },
     draw() {
@@ -61,7 +69,7 @@ export default {
         },
         yAxis: {
           type: "category",
-          data: this.upId
+          data: this.name
         },
         dataZoom: [{
           yAxisIndex: [0],
@@ -110,11 +118,13 @@ export default {
           },
         ]
       };
-
         let myChart = this.$echarts.init(document.getElementById('barStackChart'))
         myChart.setOption(option)
+        
         myChart.on('click', params => {
-            this.$emit('selectUp', params.name)
+        console.log(this.map)  
+            this.$emit('selectUp', this.map.get(params.name))
+            console.log(this.map.get(params.name))
         })
     }
   }

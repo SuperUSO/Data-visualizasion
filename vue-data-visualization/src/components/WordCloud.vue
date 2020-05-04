@@ -1,40 +1,50 @@
 <template>
   <div>
-    <div id="wordCloud" :style="{width: '400px', height: '600px'}"></div>
+    <div id="wordCloud" :style="{width: '575px', height: '190px'}"></div>
   </div>
 </template>
 
 <style>
+	#wordCloud{
+		border-bottom: 1px solid black;
+	}
 </style>
 
 <script>
 import "echarts-wordcloud";
 export default {
   name: "WordCloud",
-  props:[],
+  props:['upId'],
   data() {
     return {
-      upId: [],
-      follows: [],
-      likes: [],
-      view: []
+	//   upId: "",
+	  data: []
     };
   },
   mounted() {
-    this.setCloud();
+    this.setCloud().then(this.draw)
+  },
+  watch:{
+    'upId'(){
+      this.draw()
+    }
   },
   methods: {
     setCloud(){
         // let loadDsv = this.$d3.dsv(",","iso-8859-1")
-		this.$d3.dsv(",","static/word_data_new.csv",function(data){
+		return this.$d3.dsv(",","static/word_data_new.csv",function(data){
+			// console.log(data);
 			return {
 				
 				mid: ""+data.mid,
 				words: ""+data.words,
 			};
-		}).then((data) => {
-			console.log(data[0].words);
-			var str = data[0].words.split(",");
+		}).then((data) => this.data = data);
+	},
+	draw(){
+			let curData = this.data.filter(x => x.mid==this.$props.upId)[0];
+
+			var str = curData.words.split(",");
 			//console.log(str);
 			str[0] = str[0].substring(1,str[0].length)
 			str[str.length-1] = str[str.length-1].substring(0, str[str.length-1]-1);
@@ -42,10 +52,10 @@ export default {
 			for(var i=0;i<str.length;i++){
 				var array = str[i].replace("\"","");
 				array = array.replace(':', ',');
-				console.log(array.split(','));
+				// console.log(array.split(','));
 				upWord.push(array.split(','));
 			}
-			console.log(upWord[0][0].replace("'","").replace("'",""),upWord[0][1]);
+			// console.log(upWord[0][0].replace("'","").replace("'",""),upWord[0][1]);
 
 			var cloudData=[str.length-1];
 			for(i=0;i<str.length-1;i++){
@@ -56,10 +66,10 @@ export default {
 				t.name=upWord[i][0];
 				t.name = t.name.replace("'","").replace("'","")
 				t.value = Number(upWord[i][1])*100;
-				console.log(t);
+				// console.log(t);
 				cloudData.push(t);
 			}
-			console.log(cloudData);
+			// console.log(cloudData);
 			let wordCloud = this.$echarts.init(document.getElementById('wordCloud'))
 			
 			var option = {
@@ -80,15 +90,14 @@ export default {
 								}
 							}
 						},
-						left: "center",
-						width: "150%",
-						height: "100%",
+						// left: "center",
+						// width: "150%",
+						// height: "100%",
 						data: cloudData
 					}
 				]
 			}
 			wordCloud.setOption(option);
-		})
 	}
   }
 };

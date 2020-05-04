@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div id="myChart" style="width: 80%;height: 600px;"></div>
+		<div id="myChart" style="width: 530px;height: 260px;"></div>
 	</div>
 	
 </template>
@@ -34,13 +34,14 @@ export default {
   methods: {
       loadData(){
         return this.$props.rawDataProp.then(d => {
-            console.log(d[0])
+            // console.log(d[0])
             this.rawData = d;
         });
       },
       dealData(){
+		  console.log("upid: "+this.$props.upId)
           this.data = this.rawData
-            .filter((d) => d.owner === this.$props.upId)
+            .filter((d) => d.owner == this.$props.upId)
             .map((data1) => {
               return {
                 time: ""+data1.time,
@@ -55,7 +56,8 @@ export default {
 				share: [""+data1.time.substring(0,10), +data1.share],
                 }            
             })
-            .sort((a, b) => a.datetime - b.datetime);
+			.sort((a, b) => a.datetime - b.datetime);
+		console.log(this.data.length)
       },
       draw(){
           let data=this.data
@@ -308,6 +310,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;
   text-align: center;
-  left:100px;
+  border-top: 1px solid black;
+  /* padding-top: 30px; */
+  /* left:100px; */
 }
 </style>

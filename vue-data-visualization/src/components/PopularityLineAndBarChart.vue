@@ -1,15 +1,23 @@
 <template>
   <div>
-    <div class="lineAndBarChart">
-      <div id="lineAndBarChart" :style="{width: '1000px', height: '400px'}"></div>
-    </div>
     <div class="pieChart">
-      <div id="pieChart" :style="{width: '500px', height: '500px'}"></div>
+      <div id="pieChart" :style="{width: '550px', height: '250px'}"></div>
     </div>
+    <div class="lineAndBarChart">
+      <div id="lineAndBarChart" :style="{width: '530px', height: '260px'}"></div>
+    </div>
+    
   </div>
 </template>
 
 <style>
+#pieChart{
+  padding-left: 40px;
+  border-bottom: 1px solid black;
+}
+#lineAndBarChart{
+  padding-left: 30px;
+}
 </style>
 
 <script>
@@ -78,7 +86,7 @@ export default {
       this.timeList = [];
       this.typeAndValue = [];
       this.types = [];
-      this.data = this.rawData.filter(video => video.owner === this.$props.upId);
+      this.data = this.rawData.filter(video => video.owner == this.$props.upId);
 
       this.videos = this.data
         .map(video => {
@@ -259,7 +267,10 @@ export default {
               }
             }
           }
-        ]
+        ],
+        grid: {
+          x:70
+        }
       };
       let myPieChart = this.$echarts.init(
         document.getElementById("pieChart")

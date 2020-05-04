@@ -10,7 +10,7 @@
  */
 .echarts {
   width: 600px;
-  height: 400px;
+  height: 710px;
 }
 </style>
 
