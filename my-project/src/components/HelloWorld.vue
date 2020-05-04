@@ -36,7 +36,7 @@
 			</el-carousel-item>
 		</el-carousel>
 	</el-main>
-	<el-footer height="25px">
+	<el-footer height="25px" >
 		<el-row type="flex" justify="end" >
 			<!--div class="grid-content2 bg-star">
 				<el-link icon="el-icon-arrow-right" href="/chartx" >
@@ -81,6 +81,7 @@ a {
 }
 .el-row :hover{
 	background-color: burlywood;
+	border-radius: 4px;
 }
 .grid-content{
 	border-radius: 4px;
