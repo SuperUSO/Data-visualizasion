@@ -4,7 +4,7 @@
       <div id="pieChart" :style="{width: '550px', height: '250px'}"></div>
     </div>
     <div class="lineAndBarChart">
-      <div id="lineAndBarChart" :style="{width: '530px', height: '260px'}"></div>
+      <div id="lineAndBarChart"></div>
     </div>
     
   </div>
@@ -12,11 +12,14 @@
 
 <style>
 #pieChart{
-  padding-left: 40px;
+  padding-left: 20px;
+  /* padding-top: 10px; */
   border-bottom: 1px solid black;
 }
 #lineAndBarChart{
-  padding-left: 30px;
+  width: 590px;
+  height: 260px;
+  /* padding-left: 45px; */
 }
 </style>
 
@@ -33,28 +36,34 @@ export default {
       data: {},
       myChart:{},
       colors: [
-            "#d87c7c",
-            "#919e8b",
-            "#d7ab82",
-            "#6e7074",
-            "#61a0a8",
-            "#efa18d",
-            "#787464",
-            "#cc7e63",
-            "#724e58",
-            "#4b565b"
+            "#ff6c98",
+            "#958dfa",
+            "#54d497",
+            "#ffd876",
+            "#f7be71",
+            "#8ec218",
+            "#f5a3c7",
+            "#ee9a37",
+            "#7978f8",
+            "#ff7276",
+            "#119bff",
+            "#ffbe0a",
+            "#a029a9",
+            "#89c152",
+            "#357aa1"
         ],
       upid: "38351330",
       videos: [],
       popularityList: [], //line chart
       lengthSecondsList: [], //bar chart
       timeList: [], //xaxis
+      titleList: [],
+      bvidList: [],
       types: [],
       typeAndValue: []
     };
   },
   mounted() {
-    // console.log(this.loadData())
     this.loadData()
       .then(this.processData)
       .then(this.draw);
@@ -74,7 +83,7 @@ export default {
       //   this.rawData = d;
       // });
       return this.$props.rawDataProp.then(d => {
-        console.log(d[0])
+        // console.log(d[0])
         this.rawData = d;
       });
     },
@@ -86,6 +95,8 @@ export default {
       this.timeList = [];
       this.typeAndValue = [];
       this.types = [];
+      this.titleList = [];
+      this.bvidList = [];
       this.data = this.rawData.filter(video => video.owner == this.$props.upId);
 
       this.videos = this.data
@@ -105,6 +116,7 @@ export default {
 
           return {
             bvid: video.bvid,
+            title: video.title,
             // coin: parseInt(video.coin),
             // favorite: parseInt(video.favorite),
             // share: parseInt(video.share),
@@ -112,7 +124,6 @@ export default {
             popularity: popularity.toFixed(0),
             length: video.length,
             lengthSeconds: lengthSeconds,
-            title: video.title,
             type_name: video.type_name,
             time: new Date(video.time),
             timeFormatted: video.time.split(" ")[0]
@@ -124,6 +135,8 @@ export default {
         this.popularityList.push(video.popularity);
         this.lengthSecondsList.push(video.lengthSeconds);
         this.timeList.push(video.timeFormatted);
+        this.bvidList.push(video.bvid);
+        this.titleList.push(video.title);
       }
 
       let typeAndValueTemp = this.data.reduce((acc, cur) => {
@@ -159,7 +172,26 @@ export default {
             crossStyle: {
               color: "#999"
             }
-          }
+          },
+          formatter(params){
+						// console.log(params)
+						let result = params[0].name + '<br/>';
+						for(let i=2;i<params.length;i++){
+							result+=params[i].seriesName+": "+params[i].value+'<br/>';
+            }
+            result+=params[0].marker+params[0].seriesName+": "+params[0].value+'<br/>';
+            let time = parseInt(params[1].value);
+            // console.log(time,`${Math.floor(time/60)}'${(time%60).toFixed(0)}''`)
+            result+=params[1].marker+params[1].seriesName+": "+
+              `${Math.floor(time/60)}'${(time%60).toFixed(0)}''`
+						// for(let i=0;i<params.length-2;i++){
+						// 	result+=params[i].marker+params[i].seriesName+": "+params[i].value+'<br/>';
+						// }
+						return result;
+					}
+        },
+        grid: {
+          x:80
         },
         legend: {
           data: ["视频时长", "视频受欢迎程度"]
@@ -181,7 +213,10 @@ export default {
             max: popilarityMax,
             interval: popilarityMax / 5,
             axisLabel: {
-              formatter: "{value}"
+              // formatter: "{value}"
+              formatter: (value, index) => {
+                return Math.floor(value)
+              }
             }
           },
           {
@@ -189,9 +224,15 @@ export default {
             name: "视频时长",
             min: 0,
             max: lengthMax,
-            interval: lengthMax / 5,
+            interval: (lengthMax/5),
             axisLabel: {
-              formatter: "{value} s"
+              formatter: (value, index) => {
+                let interval = lengthMax/5;
+                let arr = [0, `${interval%60}'${(interval/60).toFixed(0)}''`]
+                // console.log(`${value%60}'${(value/60).toFixed(0)}''`)
+                return `${Math.floor(value/60)}'${(value%60).toFixed(0)}''`
+                // return `${(value%60).toFixed(0)}'${(value/60).toFixed(0)}''`
+              }
             }
           }
         ],
@@ -227,6 +268,18 @@ export default {
                 }
               }
             }
+          },
+          {
+            name: '视频号',
+            type: 'line',
+            //stack: '总量',
+            data: this.bvidList,
+          },
+          {
+            name: '标题',
+            type: 'line',
+            //stack: '总量',
+            data: this.titleList,
           }
         ]
       };
@@ -240,7 +293,7 @@ export default {
       let pieOption = {
         title: {
           text: "视频分区统计",
-          left: "center"
+          left: "left"
         },
         tooltip: {
           trigger: "item",
@@ -248,7 +301,7 @@ export default {
         },
         legend: {
           orient: "vertical",
-          left: "left",
+          right: "right",
           data: this.types
         },
         color: this.colors,
@@ -257,7 +310,7 @@ export default {
             name: "视频分区",
             type: "pie",
             radius: "55%",
-            center: ["50%", "60%"],
+            center: ["40%", "60%"],
             data: this.typeAndValue,
             emphasis: {
               itemStyle: {

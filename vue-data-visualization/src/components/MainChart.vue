@@ -1,10 +1,21 @@
 <template>
   <div>
+    <div class="legend">
+      <div>发布稿件数量</div>
+      <div>1☆：较少</div>
+      <div>2☆：中等</div>
+      <div>3☆：较多</div>
+    </div>
     <div id="mainChart" :style="{width: '450px', height: '420px'}"></div>
   </div>
 </template>
 
 <style>
+.legend{
+  position: relative;
+  float: right;
+  font-size: 13px;
+}
 #mainChart{
   padding-left: 30px;
   padding-top: 20px;
@@ -20,18 +31,18 @@ export default {
       rawData: {},
       data: [],
       colors: [
-        "#d87c7c",
-        "#919e8b",
-        "#d7ab82",
-        "#6e7074",
-        "#61a0a8",
-        "#efa18d",
-        "#787464",
-        "#cc7e63",
-        "#724e58",
-        "#4b565b",
-        "#9A2555"
-      ],
+            "#ff6c98",
+            "#958dfa",
+            "#54d497",
+            "#ffd876",
+            "#f7be71",
+            "#8ec218",
+            "#f5a3c7",
+            "#ee9a37",
+            "#7978f8",
+            "#ff7276",
+            "#ffbe0a"
+        ],
       levels: ['1☆','2☆','3☆']
     };
   },
@@ -54,7 +65,6 @@ export default {
       });
     },
     processData() {
-      //   console.log(this.rawData);
       let groupByTypeObj = this.rawData.reduce((acc, item, idx) => {
         let result = acc[item.type] || {
           name: item.type.slice(0, item.type.length-1),
@@ -97,43 +107,35 @@ export default {
           name: item.name,
           children: []
         }
-        // if(cntArr.length < 3){
-        //   curObj.children.push({
-        //     name: this.levels[2],
-        //     children: item.children
-        //   });
-        // }
-        // else{
-          curObj.children = [
-            {
-              name: this.levels[0],
-              children: [],
-            },
-            {
-              name: this.levels[1],
-              children: [],
-            },
-            {
-              name: this.levels[2],
-              children: [],
-            }
-          ]
-          let maxCnt = Math.max(...cntArr), minCnt = Math.min(...cntArr);
-          let interval = (maxCnt - minCnt) / 3;
-          let intervalArr = [minCnt+interval, maxCnt-interval];
-          for(let x of item.children){
-            let xCnt = x.count;
-            if(xCnt<intervalArr[0]){
-              curObj.children[0].children.push(x);
-            }
-            else if(xCnt<intervalArr[1]){
-              curObj.children[1].children.push(x);
-            }
-            else{
-              curObj.children[2].children.push(x);
-            }
+        curObj.children = [
+          {
+            name: this.levels[0],
+            children: [],
+          },
+          {
+            name: this.levels[1],
+            children: [],
+          },
+          {
+            name: this.levels[2],
+            children: [],
           }
-        // }
+        ]
+        let maxCnt = Math.max(...cntArr), minCnt = Math.min(...cntArr);
+        let interval = (maxCnt - minCnt) / 3;
+        let intervalArr = [minCnt+interval, maxCnt-interval];
+        for(let x of item.children){
+          let xCnt = x.count;
+          if(xCnt<intervalArr[0]){
+            curObj.children[0].children.push(x);
+          }
+          else if(xCnt<intervalArr[1]){
+            curObj.children[1].children.push(x);
+          }
+          else{
+            curObj.children[2].children.push(x);
+          }
+        }
         groupByCntArr.push(curObj);
 
       }
@@ -158,7 +160,7 @@ export default {
       //   };
 
       let data = this.data;
-      console.log(data)
+      // console.log(data)
 
       for (var j = 0; j < data.length; ++j) {
         var level1 = data[j].children;
@@ -299,16 +301,15 @@ export default {
         ]
       };
 
-      console.log("click---");
       let myChart = this.$echarts.init(document.getElementById("mainChart"));
       myChart.setOption(option);
         myChart.on("click", params => {
           // console.log(params);
           if(params.data.upId != undefined){
             this.$emit('selectUp', params.data.upId)
+            this.$emit('selectUpName', params.name)
           }
         });
-      console.log("end");
     }
   }
 };

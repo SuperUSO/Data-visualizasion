@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import VChart from '@/components/V-Chart'
+import IntroductionPage from '@/components/IntroductionPage'
+import Charts from '@/components/Charts'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'IntroductionPage',
+      component: IntroductionPage
     },
     {
-      path: '/v',
-      name: 'VChart',
-      component: VChart
+      path: '/charts',
+      name: 'Charts',
+      component: Charts
     }
   ]
 })

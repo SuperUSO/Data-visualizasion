@@ -25,7 +25,7 @@ export default {
   methods: {
 	DealData(){
 		d3.dsv(",","static/temp_data_sorb.csv", function(data1){
-			//console.log(data1);
+			console.log(data1);
 			return {
 				time: ""+data1.time,
 				view: [""+data1.time.substring(0,10), +data1.view],
@@ -90,10 +90,12 @@ export default {
 					//interval: 100000,
 					boundaryGap: ["0", "100%"],
 					min: function(value){
-						return value.min-30000;
+						return value.min;
+						// return value.min-30000;
 					},
 					max: function(value){
-						return value.max+30000;
+						return value.max;
+						// return value.max+30000;
 					},
 					},
 				dataZoom: [{
@@ -118,13 +120,14 @@ export default {
 					start: 1,
 					end: 10
 				}],
-				series:[{
-					name: '播放量',
-					type: 'line',
-					//smooth: true,
-					//stack: '总量',
-					data: viewData,
-				},
+				series:[
+				// 	{
+				// 	name: '播放量',
+				// 	type: 'line',
+				// 	//smooth: true,
+				// 	//stack: '总量',
+				// 	data: viewData,
+				// },
 				{
 					name: '点赞量',
 					type: 'line',

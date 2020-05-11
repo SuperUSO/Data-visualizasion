@@ -1,34 +1,12 @@
 <template>
   <div id="app">
-    <!-- <div>
-      <el-row :gutter="10">
-        <el-col :span="13">
-          <el-row :gutter="10">
-            <el-col :span="9"><div class="grid-content2 bg-purple">
-              <BarStackChart @selectUp="selectUp($event)" :rawDataProp="getUpData"/>
-            </div></el-col>
-            <el-col :span="11"><div class="grid-content2 bg-purple">
-              <MainChart @selectUp="selectUp($event)" :rawDataProp="getUpData"/>
-            </div></el-col>
-          </el-row>
-        </el-col>
-        <el-col :span="6">
-          <el-col :span="24">
-            <PopularityLineAndBarChart :upId="upId" :rawDataProp="getVideoData"/>
-          </el-col>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :span="12">
-          <div class="grid-content3 bg-purple">
-            <div id="myChart" style="width: 95%;height: 400px;"></div>
-          </div>
-        </el-col>
-        <el-col :span="12"><div class="grid-content3 bg-purple"></div></el-col>
-      </el-row>
-    </div> -->
-    <div class="container">
-      <div class="col1">
+    <!-- <VideoLineChart :upId="upId" :rawDataProp="getVideoData"/> -->
+    <!-- <Test /> -->
+    
+    <router-view />
+    <!-- <IntroductionPage /> -->
+    <!-- <div class="container"> -->
+      <!-- <div class="col1">
         <BarStackChart @selectUp="selectUp($event)" :rawDataProp="getUpData"/>
       </div>
       <div class="col2">
@@ -39,7 +17,7 @@
         <WordCloud :upId="upId" />
         <PopularityLineAndBarChart :upId="upId" :rawDataProp="getVideoData"/>
       </div>
-    </div>
+    </div> -->
     <!-- <PopularityLineAndBarChart :upId="upId" :rawDataProp="getVideoData"/> -->
     <!-- <MainChart @selectUp="selectUp($event)" :rawDataProp="getUpData"/> -->
     <!-- <VideoLineChart :upId="upId" :rawDataProp="getVideoData"/> -->
@@ -48,6 +26,8 @@
   </div>
 </template>
 
+<!--
+
 <script>
 import MainChart from '@/components/MainChart'
 import VideoLineChart from '@/components/VideoLineChart'
@@ -55,6 +35,8 @@ import BarStackChart from '@/components/BarStack'
 import PieAndLineChart from '@/components/PieAndLineChart'
 import PopularityLineAndBarChart from '@/components/PopularityLineAndBarChart'
 import WordCloud from '@/components/WordCloud'
+import IntroductionPage from '@/components/IntroductionPage'
+import Test from '@/components/Test'
 export default {
   name: 'App',
   components: {
@@ -62,7 +44,9 @@ export default {
     BarStackChart,
     VideoLineChart,
     PopularityLineAndBarChart,
-    WordCloud
+    WordCloud,
+    IntroductionPage,
+    Test
   },
   data(){
     return {
@@ -134,3 +118,5 @@ export default {
 	
 }
 </style>
+
+-->

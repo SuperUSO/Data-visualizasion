@@ -38,10 +38,11 @@ export default {
       // console.log(data);
       let idx = 0;
       for (let item of data) {
+        // console.log(item.likes)
         this.upId.push(item.mid);
         this.follows.push(item.follower);
         this.view.push(item.view);
-        this.likes.push(item.likes);
+        this.likes.push(parseInt(item.likes));
         this.name.push(item.name);
         this.map.set(item.name, item.mid)
       }
@@ -56,7 +57,7 @@ export default {
           }
         },
         legend: {
-          data: ["关注人数", "点赞"]
+          data: ["粉丝数", "点赞"]
         },
         grid: {
           left: "3%",
@@ -65,36 +66,45 @@ export default {
           containLabel: true
         },
         xAxis: {
-          type: "value"
+          type: "value",
+          axisLabel:{
+          interval: 0,
+          rotate: 30
+        },
         },
         yAxis: {
           type: "category",
-          data: this.name
-        },
-        dataZoom: [{
+          data: this.name,
+        },        
+        dataZoom: [
+          {
           yAxisIndex: [0],
           show: true,
           realtime: true,
           start: 100,
-          end: 60
+          end: 80
         },
-        {
-					type: 'slider',
-					show: true,
-					xAxisIndex: [0],
-					start: 0, 
-					end: 70
-				}],
+        // {
+				// 	type: 'slider',
+				// 	show: true,
+				// 	xAxisIndex: [0],
+				// 	start: 0, 
+				// 	end: 90
+        // }
+        ],
         series: [
           {
-            name: "关注人数",
+            // barWidth: 20,
+            name: "粉丝数",
             type: "bar",
             stack: "总量",
             label: {
               show: false,
               position: "insideRight"
             },
-            data: this.follows
+            data: this.follows,
+            color: "#ffd876"
+            
           },
         //   {
         //     name: "观看数",
@@ -114,7 +124,8 @@ export default {
               show: false,
               position: "insideRight"
             },
-            data: this.likes
+            data: this.likes,
+            color: "#ff6c98"
           },
         ]
       };
@@ -122,9 +133,9 @@ export default {
         myChart.setOption(option)
         
         myChart.on('click', params => {
-        console.log(this.map)  
             this.$emit('selectUp', this.map.get(params.name))
-            console.log(this.map.get(params.name))
+            this.$emit('selectUpName', params.name)
+            // console.log(params.name)
         })
     }
   }

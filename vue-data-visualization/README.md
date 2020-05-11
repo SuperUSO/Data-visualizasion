@@ -1,6 +1,6 @@
-# cov19-visualization
-
 > A Vue.js project
+
+http://8.129.9.160:80
 
 ## Build Setup
 

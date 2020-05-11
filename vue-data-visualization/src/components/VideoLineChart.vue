@@ -39,11 +39,13 @@ export default {
         });
       },
       dealData(){
-		  console.log("upid: "+this.$props.upId)
+		//   console.log("upid: "+this.$props.upId)
           this.data = this.rawData
             .filter((d) => d.owner == this.$props.upId)
             .map((data1) => {
               return {
+				bvid: [""+data1.time.substring(0,10), ""+data1.bvid],
+				title: [""+data1.time.substring(0,10), ""+data1.title],
                 time: ""+data1.time,
                 // view: [""+data1.view],
 				// favorite: [""+data1.favorite],
@@ -57,7 +59,7 @@ export default {
                 }            
             })
 			.sort((a, b) => a.datetime - b.datetime);
-		console.log(this.data.length)
+		// console.log(this.data.length)
       },
       draw(){
           let data=this.data
@@ -66,31 +68,65 @@ export default {
 			var favoriteData=[];
 			var coinData=[];
 			var shareData=[];
+			var titleData=[];
+			var bvidData=[];
 			//var theData = [["2020-03-10", 8851508], ["2019-12-08", 6589367], ["2020-03-02", 802968]];
 			for(var i=0;i<data.length;i++){
 				viewData.push(data[i].view);
 				favoriteData.push(data[i].favorite);
 				coinData.push(data[i].coin);
 				shareData.push(data[i].share);
+				bvidData.push(data[i].bvid);
+				titleData.push(data[i].title);
 				//theData.time = data[i].time.substring(0, 9);
 			}
-			// console.log("view"+viewData);
-			// console.log("favorite"+favoriteData);
-			// console.log("coin"+coinData);
-			// console.log("share"+shareData);
 			//var allData=[viewData,favoriteData,coinData,shareData];
+			let xmin = Math.min(...viewData), xmax = Math.max(...viewData)
 			let myChart = echarts.init(document.getElementById('myChart'))
+
 			var option2 = {
+				grid: {
+					x:80
+				},
 				legend: {
 					data:['播放量', '点赞量', '投币量', '分享量'],
 				},
 				tooltip: {
 					show: true,
 					trigger: 'axis',
+					formatter(params){
+						console.log(params)
+						let result = params[0].value[0] + '<br/>';
+						if(params.length>6){
+							result+=params[11].seriesName+": "+params[11].value[1]+'<br/>';
+							result+=params[9].seriesName+": "+params[9].value[1]+'<br/>';
+							result+=params[7].marker+params[7].seriesName+": "+params[7].value[1]+'<br/>';
+							result+=params[5].marker+params[5].seriesName+": "+params[5].value[1]+'<br/>';
+							result+=params[3].marker+params[3].seriesName+": "+params[3].value[1]+'<br/>';
+							result+=params[1].marker+params[1].seriesName+": "+params[1].value[1]+'<br/>';
+
+							result+=params[10].seriesName+": "+params[10].value[1]+'<br/>';
+							result+=params[8].seriesName+": "+params[8].value[1]+'<br/>';
+							result+=params[6].marker+params[6].seriesName+": "+params[6].value[1]+'<br/>';
+							result+=params[4].marker+params[4].seriesName+": "+params[4].value[1]+'<br/>';
+							result+=params[2].marker+params[2].seriesName+": "+params[2].value[1]+'<br/>';
+							result+=params[0].marker+params[0].seriesName+": "+params[0].value[1]+'<br/>';
+						}
+						else{
+							for(let i=4;i<params.length;i++){
+								result+=params[i].seriesName+": "+params[i].value[1]+'<br/>';
+							}
+							for(let i=0;i<params.length-2;i++){
+								result+=params[i].marker+params[i].seriesName+": "+params[i].value[1]+'<br/>';
+							}
+						}
+						
+						return result;
+					}
 				},
 				title: {
 					//left: 'center',
-					text: '4.1.4',
+					text: '',
 				},
 				toolbox: {
 					feature: {
@@ -121,7 +157,14 @@ export default {
 					max: function(value){
 						return value.max+30000;
 					},
-					},
+					// interval: ((xmax+30000)-(xmin-30000))/5
+					// interval: (value) => {
+					// 	console.log(value)
+					// 	return ((value.max+30000)-(value.min-30000))/5},
+					// axisLabel: {
+					// 	formatter: "{value}"
+					// }
+				},
 				dataZoom: [{
 					type: 'slider',
 					show: true,
@@ -144,32 +187,49 @@ export default {
 					start: 1,
 					end: 10
 				}],
-				series:[{
+				series:[
+					{
 					name: '播放量',
 					type: 'line',
 					//smooth: true,
 					//stack: '总量',
 					data: viewData,
+					color: "#ff6c98"
 				},
 				{
 					name: '点赞量',
 					type: 'line',
 					//smooth: true,
 					//stack: '总量',
-					data: favoriteData,					
+					data: favoriteData,	
+					color: "#958dfa"			
 				},
 				{
 					name: '投币量',
 					type: 'line',
 					//stack: '总量',
 					data: coinData,
+					color: "#54d497"
 				},
 				{
 					name: '分享量',
 					type: 'line',
 					//stack: '总量',
 					data: shareData,
-				}]
+					color: "#ffd876"
+				},
+				{
+					name: '视频号',
+					type: 'line',
+					//stack: '总量',
+					data: bvidData,
+				},
+				{
+					name: '标题',
+					type: 'line',
+					//stack: '总量',
+					data: titleData,
+				},]
 			};
 			myChart.setOption(option2,true);
       },
@@ -198,10 +258,6 @@ export default {
 				shareData.push(data[i].share);
 				//theData.time = data[i].time.substring(0, 9);
 			}
-			console.log("view"+viewData);
-			console.log("favorite"+favoriteData);
-			console.log("coin"+coinData);
-			console.log("share"+shareData);
 			//var allData=[viewData,favoriteData,coinData,shareData];
 			let myChart = echarts.init(document.getElementById('myChart'))
 			var option2 = {

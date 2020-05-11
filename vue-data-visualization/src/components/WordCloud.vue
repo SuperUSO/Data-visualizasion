@@ -1,12 +1,24 @@
 <template>
   <div>
-    <div id="wordCloud" :style="{width: '575px', height: '190px'}"></div>
+	<div class="title">
+		<div>{{upName}}</div>
+	</div>
+    <div id="wordCloud" :style="{width: '575px'}"></div>
   </div>
 </template>
 
 <style>
 	#wordCloud{
 		border-bottom: 1px solid black;
+		height: 151px;
+	}
+	.title{		
+		display: flex;
+		font-weight: bold;
+		font-size: 20px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid black;
+		justify-content: center;
 	}
 </style>
 
@@ -14,7 +26,7 @@
 import "echarts-wordcloud";
 export default {
   name: "WordCloud",
-  props:['upId'],
+  props:['upId','upName'],
   data() {
     return {
 	//   upId: "",
