@@ -34,5 +34,7 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
+.el-scrollbar_wrap{
+	overflow-x: hidden;
+}
 </style>

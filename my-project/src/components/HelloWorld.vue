@@ -1,20 +1,40 @@
 <template>
-  <div class="hello bg-gray">
+  <div class="bg-gray">
     <!--h1>{{ msg }}</h1-->
-	<!--el-header height="30px">Head</el-header-->
-	<el-main>
-		<el-carousel height="635px">
+	<!--el-header height="30px">Head
+	https://media.w3.org/2010/05/sintel/trailer.mp4
+	</el-header-->
+	<!--video src="../宣传片.mp4" width="320" height="240" autoplay loop muted></video-->
+	<!--el-main-->
+		<el-carousel height="700px">
 			<!--el-carousel-item v-for="item in 4" :key="item">
 				<h3 class="small">{{item}}</h3>
 			</el-carousel-item-->
 			<el-carousel-item>
-				<el-col :span="2"><div class="grid-content bg-star"></div></el-col>
-				<el-col :span="20">
-					<el-image style="width: 100%; height: 100%;"
-							:src="require('@/assets/index.png')">
+				<!--el-col :span="2"><div class="grid-content bg-star"></div></el-col-->
+				<el-col :span="24">
+					<video src="../assets/video_Trim.mp4" style="width: 100%; height: 100%;" autoplay loop muted></video>
+					<el-image 
+							:src="require('@/assets/title3.png')">
 					</el-image>
+					<div style="margin-top: 520px;">
+					<el-row type="flex" justify="start" height="28px">
+						<el-col :span="1">
+							<el-button @click="drawer = true" type="text" style="color: #FFFFFF;">
+								HELP
+							</el-button>
+						</el-col>
+						<el-col :span="2" offset="21" >
+							<el-link icon="el-icon-arrow-right" href="/chartx" >
+								<div class="text-white">
+									进入可视化
+								</div>
+							</el-link>
+						</el-col>
+					</el-row>
+					</div>
 				</el-col>
-				<el-col :span="2"><div class="grid-content bg-star"></div></el-col>
+				<!--el-col :span="2"><div class="grid-content bg-star"></div></el-col-->
 			</el-carousel-item>
 			<el-carousel-item>
 				<el-row :gutter="10">
@@ -26,7 +46,7 @@
 					</el-col>
 				</el-row>
 			</el-carousel-item>
-			<el-carousel-item v-for="i in 4" :key="i">
+			<el-carousel-item v-for="i in 6" :key="i">
 				<el-row :gutter="10">
 					<el-col :span="6" v-for="j in 4" :key="j">
 						<el-image :src="require('@/assets/'+((i-1)*4+j)+'.png')"></el-image>
@@ -35,39 +55,122 @@
 				<!--el-image :src="require('@/assets/'+item+'.png')"></el-image-->
 			</el-carousel-item>
 		</el-carousel>
-	</el-main>
-	<el-footer height="25px" >
-		<el-row type="flex" justify="end" >
-			<!--div class="grid-content2 bg-star">
-				<el-link icon="el-icon-arrow-right" href="/chartx" >
-					<div class="text-white">
-						Next
-					</div>
-				</el-link>
-			</div-->
+	<!--el-row type="flex" justify="start" height="28px">
+		<el-col :span="1">
+			<el-button @click="drawer = true" type="text">
+				HELP
+			</el-button>
+		</el-col>
+		<el-col :span="2" offset="21" >
 			<el-link icon="el-icon-arrow-right" href="/chartx" >
 				<div class="text-white">
-					Next
+					进入可视化
 				</div>
 			</el-link>
-		</el-row>
-		
-	</el-footer>
+		</el-col>
+	</el-row-->
+	<!--/el-main-->
+	<!--el-footer height="40px"-->
+	<!--div height="15%">
+		<el-row type="flex" justify="start"  height="28px">
+			<el-col :span="1">
+				<el-button @click="drawer = true" type="text">
+					HELP
+				</el-button>
+			</el-col>
+			<el-col :span="2" >
+				<el-link icon="el-icon-arrow-right" href="/chartx" >
+					<div class="text-white">
+						进入可视化
+					</div>
+				</el-link>
+			</el-col>
+			
+		</el-row-->
+
+		<el-drawer
+			title="帮助文档"
+			:visible.sync="drawer"
+			:with-header="false">
+			<!--el-scrollbar style="height: 58%;">
+				<div v-html="HelpHtml" >{{HelpHtml}}</div>
+			</el-scrollbar-->
+			<div v-html="HelpHtml">{{HelpHtml}}</div>
+		</el-drawer>
+	<!--/div-->
+	<!--/el-footer-->
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    //this.getList()
+    this.title = this.readFile('帮助文档.html')
+    console.log("xxxx"+this.title)
+	return {
+		drawer: false,
+		vedioCanPlay: false,
+		fixStyle: '',
+		rawHtml:'<span style="color:red">利用vue添加了插入一个span 元素</span>',
+		HelpHtml:this.title.response,
+	}
+  },
+  mounted() {
+	this.readFile();
+  },
+  methods: {
+    readFile(filePath) {
+      // 创建一个新的xhr对象
+      let xhr = null
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest()
+      } else {
+        // eslint-disable-next-line
+        xhr = new ActiveXObject('Microsoft.XMLHTTP')
+      }
+		console.log(xhr)
+		//console.log("xxxxxx"+xhr.responseText)
+      //const okStatus = document.location.protocol === 'file' ? 0 : 200
+      xhr.open('GET', filePath, false)
+      xhr.overrideMimeType('text/html;charset=utf-8')
+      xhr.send(null)
+      //return xhr.status === okStatus ? xhr.responseText : null
+		return xhr
+    },
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+ *{  
+            margin: 0px;  
+            padding: 0px;  
+        }  
+        video{  
+            position: fixed;  
+            right: 0px;  
+            bottom: 0px;  
+            min-width: 100%;  
+            min-height: 100%;  
+            height: auto;  
+            width: 100%;  
+            /*加滤镜*/
+            /*filter: blur(15px); //背景模糊设置 */
+            /*-webkit-filter: grayscale(100%);*/  
+            /*filter:grayscale(100%); //背景灰度设置*/  
+            z-index:-11
+        }  
+        source{  
+            min-width: 100%;  
+            min-height: 100%;  
+            height: auto;  
+            width: auto;  
+        } 
 ul {
   list-style-type: none;
   padding: 0;
@@ -79,9 +182,22 @@ li {
 a {
   color: #42b983;
 }
+.el-scrollbar__wrap {
+   overflow-x: hidden;
+}
+.UpImg{
+	height: 100%;
+}
+.intro_video{
+
+	z-index: -11;
+}
 .el-row :hover{
 	background-color: burlywood;
 	border-radius: 4px;
+}
+.el-drawer{
+	margin-left: 6px;
 }
 .grid-content{
 	border-radius: 4px;
@@ -110,5 +226,9 @@ a {
 .text-white{
 	color: aliceblue;
 	font-weight: 300;
+	text-align: center;
+	width: auto;
+	height: auto;
+	margin-top: 10px;
 }
 </style>
